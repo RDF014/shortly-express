@@ -28,7 +28,7 @@ module.exports = function(db) {
       username VARCHAR(255) NOT NULL,\
       password VARCHAR(255) NOT NULL,\
       timestamp TIMESTAMP NOT NULL,\
-      hash VARCHAR(255) NULL,\
+      salt VARCHAR(255) NULL,\
       UNIQUE INDEX(username)\
       );');
   })

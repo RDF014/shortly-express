@@ -27,8 +27,7 @@ exports.getRandomSalt = () => {
             .slice(0, 16);
 };
 
-exports.sha1 = (password) => {
-  var salt = exports.getRandomSalt();
+exports.sha1 = (password, salt) => {
   var hash = crypto.createHmac('sha1', salt);
   hash.update(password);
   var value = hash.digest('hex');

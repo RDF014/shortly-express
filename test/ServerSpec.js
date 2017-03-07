@@ -141,7 +141,6 @@ describe('', function() {
         db.query(queryString, function(err, rows) {
           if (err) { done(err); }
           var user = rows[0];
-          console.log(user);
           expect(user).to.exist;
           expect(user.username).to.equal('Samantha');
           done();
