@@ -86,8 +86,14 @@ function(req, res, next) {
 // Write your authentication routes here
 /************************************************************/
 
+app.post('/login', function(req, res, next) {
 
+});
 
+app.post('/signup', function(req, res, next) {
+  Users.addDb(req, res);
+
+});
 /************************************************************/
 // Handle the wildcard route last - if all other routes fail
 // assume the route is a short code and try and handle it here.
@@ -121,6 +127,7 @@ app.get('/*', function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
+  console.log(err);
   if (!err.error) {
     return res.sendStatus(err.status);
   }
