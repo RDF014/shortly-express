@@ -31,6 +31,13 @@ module.exports = function(db) {
       salt VARCHAR(255) NULL,\
       UNIQUE INDEX(username)\
       );');
+  }).then(function() {
+    return db.queryAsync('CREATE TABLE IF NOT EXISTS sessions (\
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\
+      hash VARCHAR(255) NULL,\
+      user_id INT NULL,\
+      timestamp TIMESTAMP NOT NULL\
+      );');
   })
   /************************************************************/
   /*          Add additional schema queries here              */

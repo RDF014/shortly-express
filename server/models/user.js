@@ -21,14 +21,17 @@ module.exports = {
     var data = req.body;
     db.queryAsync(`SELECT * FROM users WHERE username = '${data.username}'`)
     .then((rows) => {
-      console.log(rows);
       var userData = rows[0][0];
       var salt = userData.salt;
       var encryp = utils.sha1(data.password, salt);
-      console.log(userData.password, encryp);
       if ( userData.password === encryp.password) {
         res.redirect('/');
+      } else {
+        res.redirect('/login');
       }
+    })
+    .catch((err) => {
+      res.redirect('/login');
     });
   } 
 };

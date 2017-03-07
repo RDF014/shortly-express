@@ -8,6 +8,8 @@ var Users = require('./models/user');
 var Links = require('./models/link');
 var Sessions = require('./models/session');
 var Click = require('./models/click');
+var cookieParser = require('./middleware/cookieParser.js');
+var sessionParser = require('./middleware/sessionParser.js');
 
 var app = express();
 
@@ -85,6 +87,8 @@ function(req, res, next) {
 /************************************************************/
 // Write your authentication routes here
 /************************************************************/
+app.use(cookieParser);
+app.use(sessionParser);
 
 app.post('/login', function(req, res, next) {
   Users.logInDb(req, res);
