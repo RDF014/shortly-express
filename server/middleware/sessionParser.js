@@ -20,9 +20,9 @@ var createSession = function(req, res, next) {
       console.log('RETURNED PROMISE', data);
       var userData = data[0][0];
       db.queryAsync('UPDATE sessions SET user_id=? WHERE hash=?', [userData.id, req.session.hash]);
+      req.session['username'] = userData.username;
+      req.session['user_id'] = req.session.hash;
       console.log(req.session);
-      req.session.username = userData.username;
-      req.session.user_id = req.session.hash;
     });
 
   }
