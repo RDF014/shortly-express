@@ -13,6 +13,9 @@ var sessionParser = require('./middleware/sessionParser.js');
 
 var app = express();
 
+app.use(cookieParser);
+app.use(sessionParser);
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(partials());
@@ -87,17 +90,35 @@ function(req, res, next) {
 /************************************************************/
 // Write your authentication routes here
 /************************************************************/
-app.use(cookieParser);
-app.use(sessionParser);
+
+
 
 app.post('/login', function(req, res, next) {
-  Users.logInDb(req, res);
-
+  Users.logInDb(req, res)
+  .then((rows) => {
+    var data = req.body;
+    // console.log('data', data);
+    var userData = rows[0][0];
+    console.log('userdata', userData);
+    var salt = userData.salt;
+    console.log('pass', data.password, 'salt', salt);
+    var encryp = util.sha1(data.password, salt);
+    // console.log('encryption', encryp);
+    if ( userData.password === encryp.password) {
+      
+      res.redirect('/');
+    } else {
+      res.redirect('/login');
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.redirect('/login');
+  });
 });
 
 app.post('/signup', function(req, res, next) {
   Users.addDb(req, res);
-
 });
 /************************************************************/
 // Handle the wildcard route last - if all other routes fail
